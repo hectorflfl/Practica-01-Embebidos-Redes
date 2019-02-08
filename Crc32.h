@@ -10,9 +10,9 @@
 #define CRC32_H_
 
 #include <string.h>
-char* iTos(unsigned long a);
+char* iTos(unsigned long a, char Server_Client);
 unsigned int crc32b(unsigned char *message);
-int take_value_crc32(unsigned char *message, char *only_data);
+int take_value_crc32(unsigned char *message, char *only_data, char Server_Client);
 unsigned int crc32b_comparator(unsigned char *crc1,unsigned char *crc2);
 
 #endif /* CRC32_H_ */

@@ -127,7 +127,7 @@ static void tcp_app_thread(void *arg) {
 
 			char* encrypt_data_pointer = encrypt_ecb(data_client_to_server);
 			unsigned long crc_int_form=crc32b((void*)encrypt_data_pointer);
-			char* crc_pointer=iTos(crc_int_form);
+			char* crc_pointer=iTos(crc_int_form,0);
 
 			char *data_with_crc_aes=strcat(encrypt_data_pointer,(const char *)crc_pointer);
 
@@ -163,14 +163,14 @@ static void tcp_app_thread(void *arg) {
 					buff_data[8] = tcp_app_data_buffer[24]-48;
 					buff_data[9] = tcp_app_data_buffer[25]-48;
 
-					if(0 == take_value_crc32(tcp_app_data_buffer,buff_data)) {
-						printf("Paquete correcto");
+					if(0 == take_value_crc32(tcp_app_data_buffer,buff_data,1)) {
+						printf("Paquete correcto\n");
 					} else {
-						printf("Paquete incorrecto");
+						printf("Paquete incorrecto\n");
 					}
 					/*------------------------------------------------------*/
 
-					PRINTF("%s\r\n", decrypt_ecb(tcp_app_data_buffer));
+
 
 					err = netconn_write(newconn, encrypt_ecb("Hola como  estas"), 16, NETCONN_COPY);
 

@@ -11,7 +11,8 @@
 
 #define NUM_BYTES_MSG 16
 #define NUM_BYTES_CRC 16
-
+#define SERVER 1
+#define CLIENT 0
  unsigned int crc32b(unsigned char *message);
 
 
@@ -20,10 +21,10 @@ unsigned int crc32_data_recived[4];
  int a[16];
  char crc_recived[10] = {0};
  unsigned int crc_calculated;
- char* iTos(unsigned long a);
+ char* iTos(unsigned long a,char Server_Client);
  long getPos(int a);
 
-int take_value_crc32(unsigned char *message, char *only_data) {
+int take_value_crc32(unsigned char *message, char *only_data, char Server_Client) {
 
 	static unsigned char bytes_counter;
 
@@ -40,7 +41,7 @@ int take_value_crc32(unsigned char *message, char *only_data) {
 
 	crc_calculated=crc32b(msg_data_recived);
 
-	return strcmp(iTos(crc_calculated), only_data);
+	return strcmp(iTos(crc_calculated,Server_Client), only_data);
 
 }
 
@@ -55,7 +56,7 @@ long getPos(int a){
 
 
 
-char* iTos(unsigned long a){
+char* iTos(unsigned long a,char Server_Client){
 	int length = 0;
 	unsigned long counter_number=a;
 	while(counter_number!=0){
@@ -69,7 +70,12 @@ char* iTos(unsigned long a){
 	char* pointer = &myarray[0];
 	for(int i = length,j = 0;i > 0;i--){
 		valor = a/getPos(i);
-		myarray[j] = 48+valor;
+		if(SERVER==Server_Client){
+			myarray[j] = valor;
+		}
+		else{
+			myarray[j] = 48+valor;
+		}
 		a = a -valor*getPos(i);
 		j++;
 	}
