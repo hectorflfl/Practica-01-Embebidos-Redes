@@ -21,8 +21,8 @@
 #include <fsl_port.h>
 #include "board.h"
 
-#define TCP_SERVER_APP (1)
-#define TCP_CLIENT_APP (0)
+#define TCP_SERVER_APP (0)
+#define TCP_CLIENT_APP (1)
 
 #if (TCP_CLIENT_APP)
 #define serverIP_ADDR0 192
