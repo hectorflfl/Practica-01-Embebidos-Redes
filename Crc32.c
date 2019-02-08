@@ -20,13 +20,6 @@ unsigned int crc32_data_recived[4];
  int a[16];
  char crc_recived[10] = {0};
  unsigned int crc_calculated;
-/*int main(void) {
- puts("!!!Hello World!!!"); // prints !!!Hello World!!!
- printf("%u",crc32b((unsigned char*)("Hola como estas")));
- return EXIT_SUCCESS;
- }
- */
-
  char* iTos(unsigned long a);
  long getPos(int a);
 
@@ -59,13 +52,24 @@ long getPos(int a){
 	return value;
 }
 
+
+
+
 char* iTos(unsigned long a){
+	int length = 0;
+	unsigned long counter_number=a;
+	while(counter_number!=0){
+
+		counter_number = counter_number/10;
+	   length ++;
+	 }
+
 	long valor = 0;
-	static char myarray[10];
+	char myarray[length];
 	char* pointer = &myarray[0];
-	for(int i = 10,j = 0;i > 0;i--){
+	for(int i = length,j = 0;i > 0;i--){
 		valor = a/getPos(i);
-		myarray[j] = valor;
+		myarray[j] = 48+valor;
 		a = a -valor*getPos(i);
 		j++;
 	}
