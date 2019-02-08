@@ -58,8 +58,8 @@
 /* IP address configuration. */
 #define configIP_ADDR0 192
 #define configIP_ADDR1 168
-#define configIP_ADDR2 1
-#define configIP_ADDR3 15
+#define configIP_ADDR2 0
+#define configIP_ADDR3 102
 
 /* Netmask configuration. */
 #define configNET_MASK0 255
@@ -70,7 +70,7 @@
 /* Gateway address configuration. */
 #define configGW_ADDR0 192
 #define configGW_ADDR1 168
-#define configGW_ADDR2 15
+#define configGW_ADDR2 0
 #define configGW_ADDR3 100
 
 /* MAC address configuration. */

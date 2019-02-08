@@ -41,6 +41,7 @@ ip4_addr_t server_address;
 #define BOARD_SW_NAME BOARD_SW3_NAME
 
 char tcp_app_data_buffer[256] = {0};
+char buff_data[10] = {0};
 /* Whether the SW button is pressed */
 volatile bool g_ButtonPress = false;
 /*-----------------------------------------------------------------------------------*/
@@ -50,9 +51,9 @@ static uint8_t* decrypt_ecb(uint8_t* in)
 	uint8_t key[] = { 0x31, 0x31, 0x31, 0x31, 0x31, 0x31, 0x31, 0x31, 0x31, 0x31, 0x31, 0x31, 0x31, 0x31, 0x31, 0x31};
 
 
-  static uint8_t buffer[16];
+  static uint8_t buffer[25];
 
-  AES_ECB_decrypt(in, key, buffer, 16);
+  AES_ECB_decrypt(in, key, buffer, 25);
 
   return buffer;
 }
@@ -81,9 +82,11 @@ static char* encrypt_ecb(char* in)
 }
 
 
+
 static void 
 tcp_app_thread(void *arg)
 {
+
   struct netconn *conn, *newconn;
   err_t err;
   LWIP_UNUSED_ARG(arg);
@@ -127,10 +130,26 @@ tcp_app_thread(void *arg)
              memcpy(tcp_app_data_buffer, data, len);
              tcp_app_data_buffer[len] = 0;
              /*Code implementation by Hector Flores ie703475@iteso.mx*/
-
-
+             buff_data[0] = tcp_app_data_buffer[16]-48;
+             buff_data[1] = tcp_app_data_buffer[17]-48;
+             buff_data[2] = tcp_app_data_buffer[18]-48;
+             buff_data[3] = tcp_app_data_buffer[19]-48;
+             buff_data[4] = tcp_app_data_buffer[20]-48;
+             buff_data[5] = tcp_app_data_buffer[21]-48;
+             buff_data[6] = tcp_app_data_buffer[22]-48;
+             buff_data[7] = tcp_app_data_buffer[23]-48;
+             buff_data[8] = tcp_app_data_buffer[24]-48;
+             buff_data[9] = tcp_app_data_buffer[25]-48;
+             //[51, 53, 55, 50, 53, 52, 51, 55, 54, 56
+            if(0 == take_value_crc32(tcp_app_data_buffer,buff_data)){
+            	printf("Paquete correcto");
+            }else{
+            	printf("Paquete incorrecto");
+            }
              /*------------------------------------------------------*/
+
              PRINTF("%s\r\n",  decrypt_ecb(tcp_app_data_buffer));
+
              /* Respond */
              if(g_ButtonPress) {
             	 data = (void*)"Event occurred!";
