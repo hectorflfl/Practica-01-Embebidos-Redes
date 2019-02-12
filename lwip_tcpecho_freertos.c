@@ -45,6 +45,7 @@
 #include "lwip/tcpip.h"
 #include "netif/ethernet.h"
 #include "ethernetif.h"
+#include "Server_Client_Com.h"
 
 #include "board.h"
 #include "aes.h"
@@ -141,7 +142,7 @@ static void stack_init(void *arg)
     PRINTF("************************************************\r\n");
 
    // tcpecho_init();
-    tcp_app_init();
+    communication_init();
     vTaskDelete(NULL);
 }
 
